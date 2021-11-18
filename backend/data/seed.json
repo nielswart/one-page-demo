@@ -1,6 +1,6 @@
 {
     "store": {
-      "currencies": ["eur"]
+      "currencies": ["zar"]
     },
     "users": [
       {
@@ -12,11 +12,11 @@
       {
         "id": "test-region",
         "name": "Default Region",
-        "currency_code": "eur",
+        "currency_code": "zar",
         "tax_rate": 0,
         "payment_providers": ["manual"],
         "fulfillment_providers": ["manual"],
-        "countries": ["gb", "de", "dk", "se", "fr", "es", "it"]
+        "countries": ["gb", "de", "dk", "se", "fr", "es", "it", "za"]
       }
     ],
     "shipping_options": [
@@ -50,7 +50,7 @@
             "title": "S",
             "prices": [
               {
-                "currency_code": "eur",
+                "currency_code": "zar",
                 "amount": 1950
               }
             ],
@@ -66,7 +66,7 @@
             "title": "M",
             "prices": [
               {
-                "currency_code": "eur",
+                "currency_code": "zar",
                 "amount": 1950
               }
             ],
@@ -82,7 +82,7 @@
             "title": "L",
             "prices": [
               {
-                "currency_code": "eur",
+                "currency_code": "zar",
                 "amount": 1950
               }
             ],
@@ -98,7 +98,7 @@
             "title": "XL",
             "prices": [
               {
-                "currency_code": "eur",
+                "currency_code": "zar",
                 "amount": 1950
               }
             ],

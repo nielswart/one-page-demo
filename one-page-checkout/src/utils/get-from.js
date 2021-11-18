@@ -1,6 +1,6 @@
 export const getFrom = (
   variants = [],
-  { currency_code = "eur", tax_rate = 0 }
+  { currency_code = "zar", tax_rate = 15 }
 ) => {
   const prices = [];
 
