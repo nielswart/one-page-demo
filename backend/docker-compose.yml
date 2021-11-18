@@ -1,0 +1,33 @@
+version: "3"
+services:
+  backend:
+    build: .
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/medusa
+      REDIS_URL: redis://cache
+      NODE_ENV: development
+      PORT: 9000
+      JWT_SECRET: jhdbvcjhsbvjsbfd
+      COOKIE_SECRET: something
+    ports:
+      - "9000:9000"
+
+  postgres:
+    image: postgres:10.4
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: medusa
+
+  redis:
+    image: redis
+    container_name: cache
+    ports:
+      - "6379:6379"
+    expose:
+      - 6379
