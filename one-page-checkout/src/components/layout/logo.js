@@ -1,6 +1,6 @@
 import { Box, Image } from "@theme-ui/components";
 import React from "react";
-import logo from "../../icons/logo.svg";
+import logo from "../../icons/harvester.svg";
 
 const Logo = () => {
   return (
@@ -11,7 +11,7 @@ const Logo = () => {
           height: "42px",
           width: "auto",
         }}
-      />
+      /><b>Partfinder</b>
     </Box>
   );
 };

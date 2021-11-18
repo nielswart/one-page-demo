@@ -24,6 +24,8 @@ import Creatable from "react-select/creatable"
 import { getCombinations } from "./utils/get-combinations"
 import { Label } from "@rebass/forms"
 
+import _ from "lodash";
+
 const StyledSelect = styled(Select)`
   font-size: 14px;
   color: #454545;

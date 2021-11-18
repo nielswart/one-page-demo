@@ -12,6 +12,8 @@ services:
       PORT: 9000
       JWT_SECRET: jhdbvcjhsbvjsbfd
       COOKIE_SECRET: something
+      AWS_ACCESS_KEY:
+      AWS_SECRET_KEY:
     ports:
       - "9000:9000"
 
