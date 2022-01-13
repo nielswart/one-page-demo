@@ -1,19 +1,19 @@
 import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js"
 import { Box, Button, Flex, Text } from "@theme-ui/components"
-import { useCart } from "medusa-react"
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
+import OrderContext from "../../context/order-context"
 
-const PaymentForm = ({ session, handleSubmit, setLoading }) => {
+const PaymentForm = ({ session }) => {
   const [errorMessage, setErrorMessage] = useState()
+  const { cart, completeOrder, setOrderCompleting } = useContext(OrderContext)
 
-  const { cart } = useCart()
   const stripe = useStripe()
   const elements = useElements()
 
   const handlePayment = async e => {
     e.preventDefault()
 
-    setLoading(true)
+    setOrderCompleting()
 
     if (!stripe || !elements) {
       return
@@ -41,16 +41,15 @@ const PaymentForm = ({ session, handleSubmit, setLoading }) => {
           },
         },
       })
-      .then(async ({ error, paymentIntent }) => {
+      .then(({ error, paymentIntent }) => {
         if (error) {
-          setLoading(false)
           const pi = error.payment_intent
 
           if (
             (pi && pi.status === "requires_capture") ||
             (pi && pi.status === "succeeded")
           ) {
-            return handleSubmit()
+            return completeOrder()
           }
 
           setErrorMessage(error.message)
@@ -61,7 +60,7 @@ const PaymentForm = ({ session, handleSubmit, setLoading }) => {
           (paymentIntent && paymentIntent.status === "requires_capture") ||
           paymentIntent.status === "succeeded"
         ) {
-          return handleSubmit()
+          return completeOrder()
         }
 
         return

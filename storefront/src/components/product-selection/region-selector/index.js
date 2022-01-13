@@ -1,18 +1,16 @@
 import { Box, Flex, Select, Text } from "@theme-ui/components"
-import { useRouter } from "next/router"
+import { navigate } from "gatsby"
 import React from "react"
 
-const RegionSelector = ({ selected, regions, handleRegionChange }) => {
-  const router = useRouter()
-
+const RegionSelector = ({ selected, regions }) => {
   const handleChange = e => {
-    const countryCode = e.currentTarget.value
-    const reg = regions.find(r => {
-      return r.countries.some(c => c.iso_2 === countryCode)
-    })
+    const [_, countryOrHandle, handle] = window.location.pathname.split("/")
 
-    handleRegionChange(reg.id, countryCode)
-    router.push(`/${router.query.handle}`)
+    if (!handle) {
+      navigate(`/${e.target.value}/${countryOrHandle}`)
+    } else {
+      navigate(`/${e.target.value}/${handle}`)
+    }
   }
 
   return (
@@ -34,7 +32,7 @@ const RegionSelector = ({ selected, regions, handleRegionChange }) => {
       <Select
         value={selected}
         id="region-select"
-        onChange={e => handleChange(e)}
+        onChange={handleChange}
         arrow={
           <Box
             as="svg"

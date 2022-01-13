@@ -1,19 +1,13 @@
-import { Card, Flex } from "@theme-ui/components"
-import { useCart } from "medusa-react"
-import Image from "next/image"
-import React from "react"
+import { Card, Flex, Image } from "@theme-ui/components"
+import React, { useContext } from "react"
+import OrderContext, { cartStates } from "../../context/order-context"
+import Checkmark from "../../images/check.png"
 import ShippingAndInfo from "../shipping"
 
-const Shipping = ({
-  region,
-  country,
-  activeStep,
-  setActiveStep,
-  setLoading,
-}) => {
-  const { cart } = useCart()
+const Shipping = ({ region, country, activeStep, setActiveStep }) => {
+  const { status, cart } = useContext(OrderContext)
 
-  const hasShipping = cart.shipping_address && cart?.shipping_methods?.length
+  const hasShipping = status === cartStates.HAS_SHIPPING
 
   let triggerStyles = {}
 
@@ -35,7 +29,6 @@ const Shipping = ({
           <ShippingAndInfo
             country={country}
             region={region}
-            setLoading={setLoading}
             nextStep={() => setActiveStep("payment")}
           />
         </Card>
@@ -46,9 +39,7 @@ const Shipping = ({
           sx={triggerStyles}
         >
           Shipping and info
-          {hasShipping && (
-            <Image src={"/check.png"} height={"11px"} width={"16px"} />
-          )}
+          {hasShipping && <Image src={Checkmark} />}
         </Card>
       )}
     </Flex>

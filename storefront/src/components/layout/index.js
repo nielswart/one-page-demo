@@ -1,13 +1,13 @@
-import React from "react"
+import React, { useMemo } from "react"
 import OuterLayout from "./layout"
 
-const Layout = ({ children, regions, country, handleRegionChange }) => {
+const Layout = ({ children, regions, country, regionId }) => {
+  const selectedRegion = useMemo(() => {
+    return regions.find(r => r.id === regionId)
+  }, [regions, regionId])
+
   return (
-    <OuterLayout
-      regions={regions}
-      country={country}
-      handleRegionChange={handleRegionChange}
-    >
+    <OuterLayout region={selectedRegion} regions={regions} country={country}>
       {children}
     </OuterLayout>
   )

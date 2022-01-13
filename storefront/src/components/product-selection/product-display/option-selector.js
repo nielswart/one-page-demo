@@ -1,9 +1,9 @@
 import { Box, Flex, Select, Text } from "@theme-ui/components"
 import React, { useContext, useEffect, useMemo, useState } from "react"
-import ProductContext from "../../../context/product-context"
+import OrderContext from "../../../context/order-context"
 
 const OptionSelector = ({ product }) => {
-  const { quantity, updateQuantity, selectVariant } = useContext(ProductContext)
+  const { quantity, updateQuantity, selectVariant } = useContext(OrderContext)
   const [options, setOptions] = useState([])
   const [selection, setSelection] = useState(JSON.stringify({}))
 

@@ -1,14 +1,14 @@
 import { Elements } from "@stripe/react-stripe-js"
 import { loadStripe } from "@stripe/stripe-js"
-import { useCart } from "medusa-react"
-import React, { useMemo } from "react"
+import React, { useContext, useMemo } from "react"
+import OrderContext from "../../context/order-context"
 import PaymentForm from "./payment-form"
 
-const STRIPE_KEY = process.env.NEXT_PUBLIC_STRIPE_API_KEY || ""
+const STRIPE_KEY = process.env.GATSBY_STRIPE_KEY || ""
 const stripePromise = loadStripe(STRIPE_KEY)
 
-const Payment = ({ handleSubmit, setLoading }) => {
-  const { cart } = useCart()
+const Payment = () => {
+  const { cart } = useContext(OrderContext)
 
   const stripeSession = useMemo(() => {
     if (cart.payment_sessions) {
@@ -28,11 +28,7 @@ const Payment = ({ handleSubmit, setLoading }) => {
 
   return (
     <Elements stripe={stripePromise} options={options}>
-      <PaymentForm
-        session={stripeSession}
-        handleSubmit={handleSubmit}
-        setLoading={setLoading}
-      />
+      <PaymentForm session={stripeSession} />
     </Elements>
   )
 }

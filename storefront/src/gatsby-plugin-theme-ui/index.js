@@ -128,31 +128,17 @@ const theme = {
     },
     landingpageText: {
       py: ".1em",
-      fontSize: "14px",
-      lineHeight: "24px",
-      color: "#111827",
+      fontSize: "12px",
+      color: "darkGrey",
       fontFamily: "Inter",
       mb: "8px",
       fontWeight: 300,
       "& a": {
-        fontWeight: 500,
         textDecoration: "none",
-        color: "#3B82F6",
+        color: "darkGrey",
         "&:hover": {
           color: "primary",
         },
-      },
-    },
-    landingpageLink: {
-      fontSize: "14px",
-      lineHeight: "24px",
-      color: "#3B82F6",
-      fontFamily: "Inter",
-      mb: "4px",
-      fontWeight: 500,
-      textDecoration: "none",
-      "&:hover": {
-        color: "primary",
       },
     },
     termsLink: {

@@ -1,8 +1,10 @@
 import { Flex, Text } from "@theme-ui/components"
-import { formatAmount } from "medusa-react"
-import React from "react"
+import React, { useContext } from "react"
+import OrderContext from "../../context/order-context"
 
-const Total = ({ cart }) => {
+const Total = () => {
+  const { cart } = useContext(OrderContext)
+
   return (
     <Flex
       sx={{
@@ -24,7 +26,8 @@ const Total = ({ cart }) => {
       >
         <Text sx={{ color: "#6B7280", fontSize: "12px" }}>Subtotal</Text>
         <Text sx={{ fontWeight: 400, color: "#111827", fontSize: "12px" }}>
-          {formatAmount({ amount: cart.subtotal, region: cart.region })}
+          {(cart.subtotal / 100) * (1 + cart.region.tax_rate / 100)}{" "}
+          {cart.region.currency_code.toUpperCase()}
         </Text>
       </Flex>
       <Flex
@@ -37,7 +40,8 @@ const Total = ({ cart }) => {
       >
         <Text sx={{ color: "#6B7280", fontSize: "12px" }}>Shipping</Text>
         <Text sx={{ fontWeight: 400, color: "#111827", fontSize: "12px" }}>
-          {formatAmount({ amount: cart.shipping_total, region: cart.region })}
+          {(cart.shipping_total / 100) * (1 + cart.region.tax_rate / 100)}{" "}
+          {cart.region.currency_code.toUpperCase()}
         </Text>
       </Flex>
       <Flex
@@ -51,7 +55,8 @@ const Total = ({ cart }) => {
           Total
         </Text>
         <Text sx={{ fontWeight: 500, color: "#111827", fontSize: "12px" }}>
-          {formatAmount({ amount: cart.total, region: cart.region })}
+          {(cart.total / 100) * (1 + cart.region.tax_rate / 100)}{" "}
+          {cart.region.currency_code.toUpperCase()}
         </Text>
       </Flex>
     </Flex>

@@ -1,21 +1,47 @@
 import { Flex } from "@theme-ui/components"
-import React, { useEffect, useState } from "react"
+import React, { useContext, useMemo, useState } from "react"
+import OrderContext, { cartStates } from "../../context/order-context"
+import Spinner from "../spinner/spinner"
 import Payment from "./payment"
 import Product from "./product"
 import Shipping from "./shipping"
 
-const Steps = ({ product, regions, country, region }) => {
+const Steps = ({ product, regions, country, regionId }) => {
   const [activeStep, setActiveStep] = useState("product")
+  const { status, orderStatus } = useContext(OrderContext)
 
-  // When region change, we reset the checkout flow
-  useEffect(() => {
-    setActiveStep("product")
-  }, [region])
+  const selectedRegion = useMemo(() => {
+    return regions.find(r => r.id === regionId)
+  }, [regions, regionId])
+
+  const loadingStates = [
+    cartStates.CREATING_CART,
+    cartStates.COMPLETING,
+    cartStates.ADDING_INFO,
+    cartStates.ADDING_SHIPPING,
+  ]
 
   return (
     <Flex sx={{ flexDirection: "column" }}>
+      {(loadingStates.includes(status) ||
+        loadingStates.includes(orderStatus)) && (
+        <Flex
+          sx={{
+            position: "absolute",
+            bg: "#ffffffaa",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Spinner />
+        </Flex>
+      )}
       <Product
-        region={region}
+        region={selectedRegion}
         regions={regions}
         product={product}
         setActiveStep={setActiveStep}
@@ -25,9 +51,13 @@ const Steps = ({ product, regions, country, region }) => {
         setActiveStep={setActiveStep}
         country={country}
         activeStep={activeStep}
-        region={region}
+        region={selectedRegion}
       />
-      <Payment region={region} country={country} activeStep={activeStep} />
+      <Payment
+        region={selectedRegion}
+        country={country}
+        activeStep={activeStep}
+      />
     </Flex>
   )
 }

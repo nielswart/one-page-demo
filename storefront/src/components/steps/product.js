@@ -1,11 +1,10 @@
-import { Card, Flex } from "@theme-ui/components"
-import { useCart } from "medusa-react"
-import Image from "next/image"
-import React, { useState } from "react"
+import { Card, Flex, Image } from "@theme-ui/components"
+import React, { useContext } from "react"
+import OrderContext from "../../context/order-context"
+import Checkmark from "../../images/check.png"
 import ProductSelection from "../product-selection"
-import Spinner from "../spinner/spinner"
 
-const Product = ({
+const Steps = ({
   product,
   regions,
   country,
@@ -13,35 +12,18 @@ const Product = ({
   activeStep,
   setActiveStep,
 }) => {
-  const [loading, setLoading] = useState(false)
-  const { cart } = useCart()
+  const { cart } = useContext(OrderContext)
+  const cartCreated = cart?.id
 
   let triggerStyles = {}
 
-  if (cart?.id) {
+  if (cartCreated) {
     triggerStyles.color = "darkgrey"
     triggerStyles.cursor = "pointer"
   }
 
   return (
-    <Flex variant="layout.stepContainer" sx={{ position: "relative" }}>
-      {loading && (
-        <Flex
-          sx={{
-            position: "absolute",
-            bg: "#ffffff",
-            opacity: 0.8,
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Spinner />
-        </Flex>
-      )}
+    <Flex variant="layout.stepContainer">
       {activeStep === "product" ? (
         <Card variant="container">
           <ProductSelection
@@ -50,7 +32,6 @@ const Product = ({
             country={country}
             product={product}
             nextStep={() => setActiveStep("shipping")}
-            setLoading={setLoading}
           />
         </Card>
       ) : (
@@ -60,13 +41,11 @@ const Product = ({
           sx={triggerStyles}
         >
           Product
-          {cart?.id && (
-            <Image src={"/check.png"} height={"11px"} width={"16px"} />
-          )}
+          {cartCreated && <Image src={Checkmark} />}
         </Card>
       )}
     </Flex>
   )
 }
 
-export default Product
+export default Steps

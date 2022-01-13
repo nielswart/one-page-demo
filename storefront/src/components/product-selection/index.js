@@ -1,36 +1,14 @@
-import { Box, Button, Divider, Flex, Text } from "@theme-ui/components"
-import { useCart } from "medusa-react"
+import { Box, Divider, Flex, Text } from "@theme-ui/components"
 import React, { useContext } from "react"
-import ProductContext from "../../context/product-context"
+import { Button } from "theme-ui"
+import OrderContext from "../../context/order-context"
 import ProductDisplay from "./product-display"
 
-const ProductSelection = ({
-  product,
-  region,
-  country,
-  nextStep,
-  setLoading,
-}) => {
-  const { variant, quantity } = useContext(ProductContext)
-  const { createCart, startCheckout } = useCart()
+const ProductSelection = ({ product, region, country, nextStep }) => {
+  const { createCart } = useContext(OrderContext)
 
-  const handleSubmit = async () => {
-    setLoading(true)
-    await createCart.mutateAsync({
-      region_id: region.id,
-      country_code: country,
-      items: [
-        {
-          variant_id: variant.id,
-          quantity,
-        },
-      ],
-    })
-
-    await startCheckout.mutateAsync()
-    setLoading(false)
-
-    nextStep()
+  const handleSubmit = () => {
+    createCart(region.id, country).finally(() => nextStep())
   }
 
   return (

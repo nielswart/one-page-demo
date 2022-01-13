@@ -1,34 +1,37 @@
 import { Card, Flex } from "@theme-ui/components"
-import { useOrder } from "medusa-react"
-import { useRouter } from "next/router"
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { client } from "../../utils/client"
 import OrderConfirmation from "../steps/order-confirmation"
 import Layout from "./layout"
 
 const CompletedLayout = () => {
-  const router = useRouter()
+  const [order, setOrder] = useState(null)
 
-  const { order } = useOrder(router.query.oid)
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search)
+    const id = urlSearchParams.get("id")
+    client.orders.retrieve(id).then(({ order: res }) => setOrder(res))
+  }, [])
+
+  if (!order) {
+    return null
+  }
 
   return (
     <Layout>
-      {order && (
-        <Card variant="container">
-          <>
-            <OrderConfirmation order={order} />
-            <Flex
-              pt={4}
-              sx={{
-                flexDirection: ["column", "row"],
-                fontSize: "12px",
-                width: "100%",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            ></Flex>
-          </>
-        </Card>
-      )}
+      <Card variant="container">
+        <OrderConfirmation order={order} />
+        <Flex
+          pt={4}
+          sx={{
+            flexDirection: ["column", "row"],
+            fontSize: "12px",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        ></Flex>
+      </Card>
     </Layout>
   )
 }

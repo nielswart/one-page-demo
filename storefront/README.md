@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://medusajs.com/">
-    <img alt="Medusa" src="./public/medusa-svg.svg" width="400" />
+    <img alt="Medusa" src="https://i.imgur.com/Tk4Q9P3.png" width="200" />
   </a>
 </p>
 <h1 align="center">
@@ -26,14 +26,6 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 <br/>
 
-## Built with
-### [Medusa](https://www.medusajs.com): Commerce engine
-### [Next.js](https://nextjs.org/): React framework
-### [Stripe](https://stripe.com/en-gb-dk): Payment provider
-### [Medusa React](https://github.com/medusajs/medusa/tree/master/packages/medusa-react): Hooks and components for Medusa
-
-<br/>
-
 **Prerequisites**: To use Medusa Express, you need a Medusa server. Check out [medusa-starter-default](https://github.com/medusajs/medusa-starter-default) for a quick setup.
 
 <br/>
@@ -42,20 +34,22 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 
 ### 1. Create your Medusa Express project
 
-#### Use npx and select medusa.express (recommended)
 ```zsh  
-  npx create-medusa-app@latest
+  gatsby new medusa-express https://github.com/medusajs/medusa-express-gatsby
+  
+  # or with npx
+  
+  npx gatsby new medusa-express https://github.com/medusajs/medusa-express-gatsby
+  
+  # or via Git
+
+  git clone https://github.com/medusajs/medusa-express-gatsby.git medusa-express
 ```
 
-#### Use git clone
-```zsh  
-  git clone --depth=1 https://github.com/medusajs/medusa-express-nextjs medusa-express
-```
-
-### 2. Navigate to project and install dependencies
+### 2. Install dependencies
 
 ```zsh
-  cd <your-express-folder>
+  cd medusa-express
   
   yarn
   # or
@@ -67,18 +61,12 @@ Medusa is an open-source headless commerce engine that enables developers to cre
 In your project, you should have a `.env.template` file with the following content:
 
 ```shell
-NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
+GATSBY_MEDUSA_BACKEND_URL=http://localhost:9000
 ```
 
 Copy the template into a file used for local development:
 ```zsh
-mv .env.template .env.local
-```
-
-Add Stripe API key as environment variable to complete orders:
-```zsh
-# Stripe key is required for completing orders
-NEXT_PUBLIC_STRIPE_API_KEY=pk_test_... 
+mv .env.template .env.development
 ```
 
 Your Medusa server runs locally on port 9000 by default. Make sure to update the above environment variable, if you've changed the port.

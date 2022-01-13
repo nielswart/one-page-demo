@@ -1,7 +1,9 @@
 import { Flex, Image, Text } from "@theme-ui/components"
-import React, { useMemo } from "react"
+import React, { useContext, useMemo } from "react"
+import OrderContext from "../../context/order-context"
 
-const Review = ({ cart }) => {
+const Review = () => {
+  const { cart } = useContext(OrderContext)
   const item = useMemo(() => {
     return cart.items[0]
   }, [cart.items])
@@ -17,10 +19,8 @@ const Review = ({ cart }) => {
         alt={item.title}
         sx={{
           height: "90px",
-          width: "50%",
+          width: "auto",
           borderRadius: "4px",
-          objectFit: "contain",
-          objectPosition: "center center",
         }}
       />
       <Flex

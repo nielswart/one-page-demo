@@ -1,13 +1,14 @@
 import { Box, Button, Divider, Text } from "@theme-ui/components"
 import { useFormik } from "formik"
-import { useCart } from "medusa-react"
-import React, { useState } from "react"
+import React, { useContext, useState } from "react"
 import * as Yup from "yup"
+import OrderContext from "../../../context/order-context"
 import Contact from "./contact"
 import Delivery from "./delivery"
 
-const Forms = ({ country, region, nextStep, setLoading }) => {
-  const { updateCart, addShippingMethod, cart } = useCart()
+const Forms = ({ country, region, nextStep }) => {
+  const { contact, delivery, setDelivery, setContact, setDetails } =
+    useContext(OrderContext)
 
   const [isValid, setIsValid] = useState({
     contact: false,
@@ -22,17 +23,17 @@ const Forms = ({ country, region, nextStep, setLoading }) => {
   const formik = useFormik({
     initialValues: {
       contact: {
-        first_name: cart?.shipping_address?.first_name || "",
-        last_name: cart?.shipping_address?.last_name || "",
-        email: cart?.email || "",
-        phone: cart?.shipping_address?.phone || "",
+        first_name: contact.first_name,
+        last_name: contact.last_name,
+        email: contact.email,
+        phone: contact.phone,
       },
       delivery: {
-        address_1: cart?.shipping_address?.address_1 || "",
-        postal_code: cart?.shipping_address?.postal_code || "",
-        city: cart?.shipping_address?.city || "",
-        country_code: cart?.shipping_address?.country_code || "",
-        shipping_option: cart?.shipping_methods?.[0]?.shipping_option_id || "",
+        address_1: delivery.address_1,
+        postal_code: delivery.postal_code,
+        city: delivery.city,
+        country_code: delivery.country_code,
+        shipping_option: delivery.shipping_option,
       },
     },
     validationSchema: Yup.object({
@@ -53,34 +54,12 @@ const Forms = ({ country, region, nextStep, setLoading }) => {
       }),
     }),
     onSubmit: async values => {
-      setLoading(true)
       setIsValid({ delivery: true, contact: true })
-
-      const { delivery, contact } = values
-
-      return updateCart
-        .mutateAsync({
-          email: contact.email,
-          shipping_address: {
-            first_name: contact.first_name,
-            last_name: contact.last_name,
-            address_1: delivery.address_1,
-            country_code: delivery.country_code,
-            postal_code: delivery.postal_code,
-            province: delivery.province,
-            city: delivery.city,
-            phone: contact.phone,
-          },
-        })
-        .then(() => {
-          return addShippingMethod.mutateAsync({
-            option_id: delivery.shipping_option,
-          })
-        })
-        .finally(() => {
-          setLoading(false)
-          nextStep()
-        })
+      setDelivery(values.delivery)
+      setContact(values.contact)
+      return setDetails(values.contact, values.delivery).finally(() =>
+        nextStep()
+      )
     },
   })
 
@@ -99,7 +78,6 @@ const Forms = ({ country, region, nextStep, setLoading }) => {
           isValid={isValid}
           summarize={false}
           setIsValid={setIsValid}
-          setLoading={setLoading}
         />
       </Box>
 
