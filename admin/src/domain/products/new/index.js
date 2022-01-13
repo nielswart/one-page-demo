@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import styled from "@emotion/styled"
+import _ from "lodash"
 import { useForm } from "react-hook-form"
 import { Text, Flex, Box } from "rebass"
 import { navigate } from "gatsby"
@@ -24,8 +25,6 @@ import Creatable from "react-select/creatable"
 import { getCombinations } from "./utils/get-combinations"
 import { Label } from "@rebass/forms"
 
-import _ from "lodash";
-
 const StyledSelect = styled(Select)`
   font-size: 14px;
   color: #454545;
@@ -43,7 +42,7 @@ const StyledCreatableSelect = styled(Creatable)`
   font-size: 14px;
   color: #454545;
 
-.css-yk16xz-control 
+.css-yk16xz-control
   box-shadow: none;
 }
 `
@@ -111,7 +110,7 @@ const RequiredLabel = styled.div`
   }
 `
 
-const NewProduct = ({}) => {
+const NewProduct = ({ }) => {
   const [hasVariants, setHasVariants] = useState(false)
   const [variants, setVariants] = useState([])
   const [options, setOptions] = useState([])

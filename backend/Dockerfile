@@ -1,9 +1,19 @@
-FROM node:16-bullseye-slim
+FROM node:17.1.0
 
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm i -g @medusajs/medusa-cli
-RUN npm ci --only=production
-COPY ./dist ./medusa-config.js ./
-EXPOSE 9000
-CMD ["medusa", "start"]
+WORKDIR /app/medusa
+
+COPY package.json .
+COPY develop.sh .
+COPY yarn.lock .
+
+RUN apt-get update
+
+RUN apt-get install -y python
+
+RUN npm install -g npm@latest
+
+RUN npm install -g @medusajs/medusa-cli@latest
+
+RUN npm install
+
+ENTRYPOINT ["./develop.sh"]
