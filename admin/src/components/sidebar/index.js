@@ -17,6 +17,8 @@ import { ReactComponent as GiftCard } from "../../assets/svg/gift-card.svg"
 import { ReactComponent as LogoInline } from "../../assets/svg/logo-horizontal.svg"
 import Medusa from "../../services/api"
 
+import logo from '../../images/BPI_Logo.png'
+
 const StyledItemContainer = styled(Link)`
   display: flex;
   padding-left: 10px;
@@ -84,12 +86,13 @@ const Sidebar = ({}) => {
   return (
     <Container fontSize={1} fontFamily={"body"} pb={3} pt={4} px={4}>
       <Flex mx={-2} alignItems="center">
-        <LogoContainer width={2 / 12} mx={2}>
+        <img src={logo}/>
+        {/* <LogoContainer width={2 / 12} mx={2}>
           <img src="https://img.icons8.com/ios/50/000000/online-shopping.png" />
         </LogoContainer>
         <Box mx={1}>
           <Text fontWeight="500">{storeName || "Medusa store"}</Text>
-        </Box>
+        </Box> */}
       </Flex>
       <Flex py={4} mx={-1} flexDirection="column" flex={1}>
         <Collapsible
