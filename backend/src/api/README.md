@@ -37,3 +37,5 @@ export default () => {
   return router;
 }
 ```
+
+To add file medusa-db.sql to .gitignore

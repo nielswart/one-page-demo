@@ -3,6 +3,8 @@ import React from "react"
 import RegionSelector from "../product-selection/region-selector"
 import { MedusaLogo } from "./logo"
 
+import logo from '../../images/BPI_Logo.png';
+
 const Layout = ({ children, country, regions }) => {
   return (
     <Flex
@@ -66,17 +68,8 @@ const Layout = ({ children, country, regions }) => {
               href="https://www.medusajs.com/"
             >
               <Flex sx={{ paddingTop: "10px", alignItems: "center" }}>
-                <MedusaLogo />
-                <Text
-                  sx={{
-                    color: "#A3A3A3",
-                    fontWeight: 500,
-                    fontSize: "14px",
-                    lineHeight: "1",
-                  }}
-                >
-                  medusa{" "}
-                </Text>
+                <img src={logo} width={200}/>
+                
               </Flex>
             </Link>
             {regions?.length && (
